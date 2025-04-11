@@ -110,12 +110,14 @@
   
   /* Controles flotantes */
   #controls {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 110;
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    z-index: 99;
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
   
   #controls button,
