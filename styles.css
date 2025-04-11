@@ -381,3 +381,56 @@
   .hidden {
     display: none;
   }
+  
+  /* Ajustes adicionales para mejor responsive */
+  
+  /* Textos y controles en pantallas pequeñas */
+  @media (max-width: 500px) {
+    #intro h1 {
+      font-size: 2.2rem;
+    }
+  
+    #intro p {
+      font-size: 1rem;
+    }
+  
+    h2 {
+      font-size: 1.5rem;
+    }
+  
+    p {
+      font-size: 0.95rem;
+    }
+  
+    #controls {
+      flex-direction: column;
+      right: 10px;
+      top: 80px;
+    }
+  
+    #controls button,
+    #controls select {
+      font-size: 0.8rem;
+      padding: 6px 10px;
+    }
+  
+    .menu-toggle {
+      padding: 10px;
+    }
+  }
+  
+  /* Ajustes para dispositivos muy pequeños */
+  @media (max-width: 350px) {
+    .services-grid,
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .nav-links {
+      width: 100%;
+    }
+  
+    .logo {
+      font-size: 1.2rem;
+    }
+  }
