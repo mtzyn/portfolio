@@ -120,10 +120,11 @@ nav .logo {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: flex-end;
-  /* Fuerza una renderización más nítida */
+  /* Se elimina transform para evitar posible desenfoque */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 #controls button,
@@ -132,11 +133,13 @@ nav .logo {
   border: none;
   border-radius: 4px;
   font-size: 0.9rem;
-  /* Fuerza la nitidez del texto */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   filter: none;
-  transform: translateZ(0);
+  /* Se eliminó transform para evitar desenfoque */
+  will-change: transform;
+  backface-visibility: hidden;
+  text-rendering: optimizeLegibility;
 }
 
 #controls button {
