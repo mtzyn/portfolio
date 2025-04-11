@@ -13,10 +13,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
 </head>
 <body>
-  <!-- Contenedor para el canvas animado de p5.js -->
-  <div id="canvas-container"></div>
-
-  <!-- Encabezado y navegación -->
   <header role="banner">
     <nav aria-label="Navegación Principal">
       <h1 class="logo">mtzynDL</h1>
@@ -27,6 +23,16 @@
         <li><a href="#proyectos">Proyectos</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
+      <!-- Se integran los controles dentro de la barra superior -->
+      <div id="controls">
+        <button id="theme-toggle" aria-label="Cambiar tema">Modo Claro</button>
+        <label for="bg-select" class="visually-hidden">Elegir fondo</label>
+        <select id="bg-select">
+          <option value="particles" selected>Partículas</option>
+          <option value="lines">Líneas</option>
+          <option value="noise">Ruido</option>
+        </select>
+      </div>
       <button class="menu-toggle" aria-label="Menú">
         <span></span>
         <span></span>
@@ -35,18 +41,6 @@
     </nav>
   </header>
 
-  <!-- Controles flotantes para tema y fondo -->
-  <div id="controls">
-    <button id="theme-toggle" aria-label="Cambiar tema">Modo Claro</button>
-    <label for="bg-select" class="visually-hidden">Elegir fondo</label>
-    <select id="bg-select">
-      <option value="particles" selected>Partículas</option>
-      <option value="lines">Líneas</option>
-      <option value="noise">Ruido</option>
-    </select>
-  </div>
-
-  <!-- Contenido principal -->
   <main>
     <section id="intro" class="section parallax">
       <h1>mtzyn Dev Lab</h1>
