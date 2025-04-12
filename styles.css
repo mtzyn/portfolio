@@ -176,14 +176,14 @@ main {
   font-size: 1.2rem;
   /* 
      Al no forzar position: relative o top en el cursor,
-     se harÃ¡ wrap cuando sea necesario y el cursor bajarÃ¡ de renglÃ³n junto al texto.
+     se hará wrap cuando sea necesario y el cursor bajará de renglón junto al texto.
   */
 }
 
 #typed-text {
   white-space: normal; /* para que haga wrap si la pantalla es estrecha */
   display: inline-block;
-  line-height: 1.2;    /* ajusta la altura de lÃ­nea */
+  line-height: 1.2;    /* ajusta la altura de línea */
 
 }
 
