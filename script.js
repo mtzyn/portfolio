@@ -1,22 +1,19 @@
-/*
-  Código modular con IIFE para encapsular:
-  - Animaciones de fondo con p5.js.
-  - Interacciones de la UI (menú, scroll suave, cambio de tema y fondo).
-  - Se ha eliminado el sistema de filtrado y el formulario de contacto, ya que ahora se muestran datos fijos.
-*/
 (() => {
-  // Variables globales para el fondo y partículas
-  let bgStyle = localStorage.getItem('bgStyle') || "particles";
+  if (!localStorage.getItem('theme')) {
+    localStorage.setItem('theme', 'light');
+  }
+  
+  let bgStyle = localStorage.getItem('bgStyle') || "lines";
   let particles = [];
   
-  // Preferencia de tema
   const themeToggle = document.getElementById('theme-toggle');
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-theme');
     themeToggle.textContent = 'Modo Oscuro';
+  } else {
+    themeToggle.textContent = 'Modo Claro';
   }
   
-  // p5.js: Fondo y partículas
   class Particle {
     constructor() {
       this.x = random(width);
@@ -27,14 +24,12 @@
       this.darkColor = color(243, 156, 18, random(100, 255));
       this.lightColor = color(52, 152, 219, random(100, 255));
     }
-    
     update() {
       this.x += this.speedX;
       this.y += this.speedY;
       if (this.x < 0 || this.x > width) this.speedX *= -1;
       if (this.y < 0 || this.y > height) this.speedY *= -1;
     }
-    
     show() {
       noStroke();
       fill(document.body.classList.contains('light-theme') ? this.lightColor : this.darkColor);
@@ -101,30 +96,29 @@
     resizeCanvas(windowWidth, windowHeight);
   };
   
-  // Interacciones de la UI
   document.addEventListener("DOMContentLoaded", () => {
+    gsap.from("header", { duration: 1, y: -50, opacity: 0, ease: "power2.out" });
+    gsap.from(".nav-links li", { duration: 1, y: -20, opacity: 0, stagger: 0.1, delay: 0.5 });
+    
     const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const navContent = document.querySelector('.nav-content');
     const bgSelect = document.getElementById('bg-select');
     bgSelect.value = bgStyle;
   
-    // Toggle del menú móvil
     menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
+      navContent.classList.toggle('active');
     });
   
-    // Smooth scroll utilizando GSAP ScrollToPlugin
-    document.querySelectorAll('nav a').forEach(link => {
+    document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         const targetId = link.getAttribute('href').slice(1);
         const targetEl = document.getElementById(targetId);
         gsap.to(window, { duration: 1, scrollTo: { y: targetEl.offsetTop - 70 } });
-        navLinks.classList.remove('active');
+        navContent.classList.remove('active');
       });
     });
   
-    // Alternar tema y guardar preferencia
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('light-theme');
       const isLight = document.body.classList.contains('light-theme');
@@ -132,7 +126,6 @@
       localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
   
-    // Cambiar estilo de fondo y guardar preferencia
     bgSelect.addEventListener('change', e => {
       bgStyle = e.target.value;
       localStorage.setItem('bgStyle', bgStyle);
@@ -144,7 +137,6 @@
       }
     });
   
-    // Observer para animar secciones al entrar en vista
     const sections = document.querySelectorAll('.section');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
