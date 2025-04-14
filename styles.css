@@ -9,45 +9,56 @@
   --font-main: 'Montserrat', sans-serif;
 }
 
+/* Tema claro */
 body.light-theme {
-  --secondary-color: #fff;
-  --accent-color: #333;
-  --header-bg: rgba(255, 255, 255, 0.9);
+  --secondary-color: #fff;               /* Fondo para “light-theme” */
+  --accent-color: #333;                  /* Texto principal en modo claro */
+  --header-bg: rgba(255, 255, 255, 0.9); /* Fondo del header en modo claro */
   --section-bg: rgba(255, 255, 255, 0.9);
-  --background: var(--secondary-color);
+  --background: var(--secondary-color);  /* Asigna el fondo al body */
 }
 
+/* Reset general */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Para texto solo visible en screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Ajuste para evitar scroll lateral accidental */
 html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
   overflow-x: hidden;
 }
 
+/* Canvas de p5.js */
 canvas {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: -1;
 }
 
+/* Estilos base del body */
 body {
   font-family: var(--font-main);
   background-color: var(--background);
   color: var(--accent-color);
-  overflow-x: hidden;
   line-height: 1.6;
 }
 
+/* Barra de progreso de scroll */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -65,7 +76,7 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  height: 70px;
+  height: 70px;                 
   background: var(--header-bg);
   padding: 0 20px;
   display: flex;
@@ -81,8 +92,9 @@ header {
   text-decoration: none;
 }
 
+/* Ícono “hamburguesa” para mobile */
 .menu-toggle {
-  display: none;
+  display: none;  /* se mostrará en el @media */
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -101,9 +113,11 @@ header {
   transition: background var(--transition-speed);
 }
 
+/* Contenedor del menú (links + botones) */
 .nav-content {
   display: flex;
   align-items: center;
+  transition: transform var(--transition-speed) ease-in-out;
 }
 
 .nav-links {
@@ -130,6 +144,7 @@ header {
   margin-left: 20px;
 }
 
+/* Botones y selects en el nav */
 .nav-controls button,
 .nav-controls select {
   background: var(--primary-color);
@@ -146,14 +161,16 @@ header {
   background: #e67e22;
 }
 
+/* Ajusta el margen superior para que el contenido no quede bajo el header */
 main {
-  margin-top: 120px;
+  margin-top: 80px;
 }
 
+/* Sección genérica */
 .section {
   padding: 60px 20px;
   max-width: 1000px;
-  margin: 80px auto;
+  margin: 40px auto;
   background: var(--section-bg);
   border-radius: 8px;
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -167,18 +184,20 @@ main {
 
 #intro h1 {
   font-size: 3.5rem;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
-#typed-text {
+#intro p {
   font-size: 1.2rem;
-  padding: 0 10px;
-  display: block;
-  white-space: normal;
-  line-height: 1.4;
 }
 
-/* Ajustes del cursor de Typed.js */
+/* Textos “typed” */
+#typed-text {
+  white-space: normal; /* Permite wrap en pantallas estrechas */
+  display: inline-block;
+  line-height: 1.2;
+}
+
 .typed-cursor {
   display: inline-block;
   vertical-align: top;
@@ -186,10 +205,12 @@ main {
   transform: none;
 }
 
+/* Sección "Sobre mí" */
 #sobre-mi p {
   text-align: justify;
 }
 
+/* Sección "Servicios" */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -212,6 +233,7 @@ main {
   color: var(--primary-color);
 }
 
+/* Sección "Proyectos" */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -242,6 +264,7 @@ main {
   margin: 0;
 }
 
+/* Timeline (Experiencia) */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -256,6 +279,7 @@ main {
   border-radius: 4px;
 }
 
+/* Contacto */
 #contacto form {
   max-width: 600px;
   margin: 0 auto;
@@ -266,6 +290,7 @@ form .form-group {
   position: relative;
 }
 
+/* Footer */
 footer {
   text-align: center;
   padding: 20px;
@@ -273,24 +298,30 @@ footer {
   color: #aaa;
 }
 
-/* MEDIA QUERY: Ajustes móviles */
+/* ----------- RESPONSIVE ----------- */
 @media (max-width: 768px) {
+  /* Mostrar el ícono de menú */
   .menu-toggle {
     display: flex;
   }
 
+  /* Menú móvil fijo a la derecha */
   .nav-content {
-    position: absolute;
-    top: 70px;
+    position: fixed;         /* Fijo en pantalla */
+    top: 0;
     right: 0;
     width: 220px;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 15px;
+    height: 100vh;          /* Ocupa todo el alto de la ventana */
+    padding: 20px;
     background: var(--header-bg);
     box-shadow: -4px 0 8px rgba(0, 0, 0, 0.4);
     transform: translateX(100%);
     transition: transform var(--transition-speed) ease-in-out;
+    z-index: 9999;           /* Encima de otros elementos */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
   }
 
   .nav-content.active {
@@ -298,25 +329,47 @@ footer {
   }
 
   .nav-links {
+    display: flex;
     flex-direction: column;
-    gap: 15px;
     width: 100%;
-    margin-bottom: 10px;
+    flex-grow: 1; /* Toma el espacio disponible */
   }
 
   .nav-links li a {
     font-size: 1.1rem;
+    padding: 8px 0;
   }
 
-  .brand .logo {
-    font-size: 1.4rem;
+  /* Reorganización estética de los controles */
+  .nav-controls {
+    margin-top: auto;
+    width: 100%;
+    /* Ubicarlos en una fila centrada */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
   }
 
+  .nav-controls button,
+  .nav-controls select {
+    width: auto;
+    min-width: 120px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  /* Ajustes en la sección “Intro” para pantallas pequeñas */
+  #intro {
+    padding: 100px 20px 60px;
+  }
   #intro h1 {
     font-size: 2.2rem;
   }
-
-  #typed-text {
+  #intro p {
     font-size: 1rem;
   }
 }

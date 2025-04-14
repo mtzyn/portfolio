@@ -14,6 +14,7 @@
     themeToggle.textContent = 'Modo Claro';
   }
   
+  // Partículas p5.js
   class Particle {
     constructor() {
       this.x = random(width);
@@ -97,6 +98,7 @@
   };
   
   document.addEventListener("DOMContentLoaded", () => {
+    // Animación de header y enlaces
     gsap.from("header", { duration: 1, y: -50, opacity: 0, ease: "power2.out" });
     gsap.from(".nav-links li", { duration: 1, y: -20, opacity: 0, stagger: 0.1, delay: 0.5 });
     
@@ -105,20 +107,24 @@
     const bgSelect = document.getElementById('bg-select');
     bgSelect.value = bgStyle;
   
+    // Evento para abrir/cerrar menú móvil
     menuToggle.addEventListener('click', () => {
       navContent.classList.toggle('active');
     });
   
+    // Smooth scroll en los enlaces del menú
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         const targetId = link.getAttribute('href').slice(1);
         const targetEl = document.getElementById(targetId);
         gsap.to(window, { duration: 1, scrollTo: { y: targetEl.offsetTop - 70 } });
+        // Cerrar menú al hacer clic en un enlace
         navContent.classList.remove('active');
       });
     });
   
+    // Botón de alternar tema
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('light-theme');
       const isLight = document.body.classList.contains('light-theme');
@@ -126,6 +132,7 @@
       localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
   
+    // Selección de fondo (particles, lines, noise)
     bgSelect.addEventListener('change', e => {
       bgStyle = e.target.value;
       localStorage.setItem('bgStyle', bgStyle);
@@ -137,6 +144,7 @@
       }
     });
   
+    // Observador para animar secciones en scroll
     const sections = document.querySelectorAll('.section');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
