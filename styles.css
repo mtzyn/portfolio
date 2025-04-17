@@ -1,7 +1,7 @@
 .nav-content.active .nav-links {
   flex-direction: column !important;
   font-size: 1.5rem !important;  /* texto más grande */
-  gap: 24px !important;          /* espaciado adecuado */
+  gap: 10px !important;          /* espaciado adecuado */
   align-items: center !important;
 }
 :root {
@@ -163,7 +163,7 @@ header {
   margin-top: auto !important;
   align-items: center !important;
   position: absolute !important;
-  bottom: 100px !important;
+  bottom: 120px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
   width: 100% !important;
@@ -190,7 +190,7 @@ main {
 .section {
   padding: 60px 20px;
   max-width: 1000px;
-  margin: 40px auto;
+  margin: 60px auto;
   background: var(--bg-overlay);
   border-radius: 8px;
   opacity: 0;
