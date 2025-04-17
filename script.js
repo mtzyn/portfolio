@@ -104,13 +104,51 @@
     
     const menuToggle = document.querySelector('.menu-toggle');
     const navContent = document.querySelector('.nav-content');
+    const backdrop = document.querySelector('.nav-backdrop');
     const bgSelect = document.getElementById('bg-select');
-    bgSelect.value = bgStyle;
+    
+    /* --- Animación GSAP al abrir el menú móvil --- */
+    const navTl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
+    navTl
+      .from(".nav-links a", { y: 60, opacity: 0, stagger: 0.08 })
+      .from(".nav-controls button", { y: 40, opacity: 0, stagger: 0.1 }, "<");
+    
+    // si el select existe (solo en versión con selector)
+    if (bgSelect) {
+      bgSelect.value = bgStyle;
   
-    // Evento para abrir/cerrar menú móvil
+      bgSelect.addEventListener('change', e => {
+        bgStyle = e.target.value;
+        localStorage.setItem('bgStyle', bgStyle);
+        particles = [];
+        if (bgStyle === "particles") {
+          for (let i = 0; i < 150; i++) {
+            particles.push(new Particle());
+          }
+        }
+      });
+    }
+  
+    // Evento para abrir/cerrar menú móvil con animación
     menuToggle.addEventListener('click', () => {
-      navContent.classList.toggle('active');
+      const isOpen = navContent.classList.toggle('active');
+      menuToggle.classList.toggle('active', isOpen);
+      document.body.classList.toggle('nav-open', isOpen);
+
+      if (isOpen) {
+        navTl.restart();
+      } else {
+        navTl.reverse();
+      }
     });
+  
+    if (backdrop) {
+      backdrop.addEventListener('click', () => {
+        navContent.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.classList.remove('nav-open');
+      });
+    }
   
     // Smooth scroll en los enlaces del menú
     document.querySelectorAll('.nav-links a').forEach(link => {
@@ -121,6 +159,8 @@
         gsap.to(window, { duration: 1, scrollTo: { y: targetEl.offsetTop - 70 } });
         // Cerrar menú al hacer clic en un enlace
         navContent.classList.remove('active');
+        menuToggle.classList.remove('active');
+        document.body.classList.remove('nav-open');
       });
     });
   
@@ -131,25 +171,24 @@
       themeToggle.textContent = isLight ? 'Modo Oscuro' : 'Modo Claro';
       localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
-  
-    // Selección de fondo (particles, lines, noise)
-    bgSelect.addEventListener('change', e => {
-      bgStyle = e.target.value;
-      localStorage.setItem('bgStyle', bgStyle);
-      particles = [];
-      if (bgStyle === "particles") {
-        for (let i = 0; i < 150; i++) {
-          particles.push(new Particle());
-        }
-      }
-    });
-  
-    // Observador para animar secciones en scroll
+    
     const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sectionMap = {};
+    navLinks.forEach(link => {
+      const id = link.getAttribute('href').slice(1);
+      sectionMap[id] = link;
+    });
+
+    // Observador para animar secciones en scroll
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
+          // marcar enlace activo
+          navLinks.forEach(l => l.classList.remove('active'));
+          const activeLink = sectionMap[entry.target.id];
+          if (activeLink) activeLink.classList.add('active');
         }
       });
     }, { threshold: 0.2 });
