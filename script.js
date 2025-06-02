@@ -1,11 +1,68 @@
 (() => {
+  // Configuración de fondo de ondas (p5.js)
+  let cfg = {
+    layers: 3,
+    baseAmp: 70,
+    baseSpeed: 0.015,
+    maxStroke: 6,
+  };
+  let phase = 0;
+
+  window.setup = function() {
+    const canvas = createCanvas(windowWidth, windowHeight);
+    canvas.parent('canvas-container');
+    strokeCap(ROUND);
+  };
+
+  window.draw = function() {
+    // Detectar modo claro/oscuro en el body
+    const isLight = document.body.classList.contains('light-theme');
+    // Fondo según el tema
+    if (isLight) {
+      background(255); // blanco modo claro
+    } else {
+      background(17);  // #111 modo oscuro
+    }
+
+    // Dibuja las ondas con color de línea según tema
+    for (let layer = 0; layer < cfg.layers; layer++) {
+      const alpha = 90 - layer * 25;
+      const strokeW = cfg.maxStroke - layer * 2;
+      const amp = cfg.baseAmp - layer * 12;
+
+      if (isLight) {
+        stroke(0, alpha);    // negro modo claro
+      } else {
+        stroke(255, alpha);  // blanco modo oscuro
+      }
+      strokeWeight(strokeW);
+      noFill();
+      beginShape();
+
+      beginShape();
+      for (let x = 0; x <= width; x += 4) {
+        const theta = phase + x * 0.015 + layer;
+        const y = height / 2 + sin(theta) * amp;
+        vertex(x, y);
+      }
+      endShape();
+    }
+    phase += cfg.baseSpeed;
+  };
+
+  window.windowResized = function() {
+    resizeCanvas(windowWidth, windowHeight);
+  };
+
+  // ---- Lógica de UI/menú y navegación ----
+
   if (!localStorage.getItem('theme')) {
     localStorage.setItem('theme', 'light');
   }
-  
-  let bgStyle = localStorage.getItem('bgStyle') || "lines";
-  let particles = [];
-  
+
+  let bgStyle = localStorage.getItem('bgStyle') || "lines"; // no se usa pero se conserva por compatibilidad
+  let particles = []; // no se usa
+
   const themeToggle = document.getElementById('theme-toggle');
   if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-theme');
@@ -13,122 +70,35 @@
   } else {
     themeToggle.textContent = 'Modo Claro';
   }
-  
-  // Partículas p5.js
-  class Particle {
-    constructor() {
-      this.x = random(width);
-      this.y = random(height);
-      this.size = random(2, 6);
-      this.speedX = random(-1, 1);
-      this.speedY = random(-1, 1);
-      this.darkColor = color(243, 156, 18, random(100, 255));
-      this.lightColor = color(52, 152, 219, random(100, 255));
-    }
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      if (this.x < 0 || this.x > width) this.speedX *= -1;
-      if (this.y < 0 || this.y > height) this.speedY *= -1;
-    }
-    show() {
-      noStroke();
-      fill(document.body.classList.contains('light-theme') ? this.lightColor : this.darkColor);
-      ellipse(this.x, this.y, this.size);
-    }
-  }
-  
-  window.setup = function() {
-    const canvas = createCanvas(windowWidth, windowHeight);
-    canvas.parent('canvas-container');
-    if (bgStyle === "particles") {
-      for (let i = 0; i < 150; i++) {
-        particles.push(new Particle());
-      }
-    }
-  };
-  
-  window.draw = function() {
-    if (bgStyle === "particles") {
-      if (document.body.classList.contains('light-theme')) {
-        background(240, 240, 240, 20);
-      } else {
-        background(17, 17, 17, 20);
-      }
-      particles.forEach(p => {
-        p.update();
-        p.show();
-      });
-    } else if (bgStyle === "lines") {
-      if (document.body.classList.contains('light-theme')) {
-        background(240, 240, 240, 20);
-        stroke(0, 0, 0, 100);
-      } else {
-        background(17, 17, 17, 20);
-        stroke(255, 255, 255, 100);
-      }
-      noFill();
-      beginShape();
-      for (let x = 0; x <= width; x += 10) {
-        let y = height / 2 + 50 * sin(x / 50 + frameCount / 20);
-        vertex(x, y);
-      }
-      endShape();
-    } else if (bgStyle === "noise") {
-      if (document.body.classList.contains('light-theme')) {
-        background(240, 240, 240);
-      } else {
-        background(17, 17, 17);
-      }
-      let scl = 20;
-      noStroke();
-      for (let x = 0; x < width; x += scl) {
-        for (let y = 0; y < height; y += scl) {
-          let n = noise(x * 0.01, y * 0.01, frameCount * 0.01);
-          let col = map(n, 0, 1, 50, 200);
-          fill(col, col, col, 100);
-          rect(x, y, scl, scl);
-        }
-      }
-    }
-  };
-  
-  window.windowResized = function() {
-    resizeCanvas(windowWidth, windowHeight);
-  };
-  
+
   document.addEventListener("DOMContentLoaded", () => {
     // Animación de header y enlaces
     gsap.from("header", { duration: 1, y: -50, opacity: 0, ease: "power2.out" });
     gsap.from(".nav-links li", { duration: 1, y: -20, opacity: 0, stagger: 0.1, delay: 0.5 });
-    
+
     const menuToggle = document.querySelector('.menu-toggle');
     const navContent = document.querySelector('.nav-content');
     const backdrop = document.querySelector('.nav-backdrop');
     const bgSelect = document.getElementById('bg-select');
-    
-    /* --- Animación GSAP al abrir el menú móvil --- */
+
+    // --- Animación GSAP al abrir el menú móvil ---
     const navTl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
     navTl
       .from(".nav-links a", { y: 60, opacity: 0, stagger: 0.08 })
       .from(".nav-controls button", { y: 40, opacity: 0, stagger: 0.1 }, "<");
-    
-    // si el select existe (solo en versión con selector)
+
+    // Si el select existe (solo en versión con selector)
     if (bgSelect) {
       bgSelect.value = bgStyle;
-  
+
       bgSelect.addEventListener('change', e => {
         bgStyle = e.target.value;
         localStorage.setItem('bgStyle', bgStyle);
         particles = [];
-        if (bgStyle === "particles") {
-          for (let i = 0; i < 150; i++) {
-            particles.push(new Particle());
-          }
-        }
+        // No hace nada más porque ahora solo hay fondo de ondas
       });
     }
-  
+
     // Evento para abrir/cerrar menú móvil con animación
     menuToggle.addEventListener('click', () => {
       const isOpen = navContent.classList.toggle('active');
@@ -141,7 +111,7 @@
         navTl.reverse();
       }
     });
-  
+
     if (backdrop) {
       backdrop.addEventListener('click', () => {
         navContent.classList.remove('active');
@@ -149,7 +119,7 @@
         document.body.classList.remove('nav-open');
       });
     }
-  
+
     // Smooth scroll en los enlaces del menú
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', e => {
@@ -163,7 +133,7 @@
         document.body.classList.remove('nav-open');
       });
     });
-  
+
     // Botón de alternar tema
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('light-theme');
@@ -171,7 +141,7 @@
       themeToggle.textContent = isLight ? 'Modo Oscuro' : 'Modo Claro';
       localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
-    
+
     const sections = document.querySelectorAll('.section');
     const navLinks = document.querySelectorAll('.nav-links a');
     const sectionMap = {};
