@@ -1,3 +1,9 @@
+.nav-content.active .nav-links {
+  flex-direction: column !important;
+  font-size: 1.5rem !important;  /* texto más grande */
+  gap: 10px !important;          /* espaciado adecuado */
+  align-items: center !important;
+}
 :root {
   --accent: #f39c12;
   --bg-overlay: rgba(0, 0, 0, 0.6);
@@ -31,17 +37,6 @@ body {
   line-height: 1.6;
 }
 
-/* Canvas de p5.js: Fondo animado siempre al fondo, sin bloquear clicks */
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-}
-
 /* Backdrop que oscurece el fondo cuando el menú móvil está abierto */
 .nav-backdrop {
   display: none;
@@ -70,6 +65,15 @@ body.nav-open .nav-backdrop {
   transition: width 0.1s ease-out;
 }
 
+/* Canvas de p5.js */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 /* Evita que elementos principales excedan el ancho de la ventana */
 header,
 footer,
@@ -144,7 +148,7 @@ header {
 .nav-links a {
   color: var(--text);
   text-decoration: none;
-  white-space: nowrap;
+  white-space: nowrap;       /* evita saltos de línea en enlaces como 'Sobre mí' */
   transition: color var(--transition-speed);
 }
 .nav-links a:hover {
@@ -283,23 +287,24 @@ footer {
 /* Responsive */
 @media (max-width: 768px) {
   .nav-content {
-    display: none;
+    display: none;                 /* oculto por defecto para no cubrir contenido */
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh !important;
+    left: 0;                      /* ocupa toda la pantalla */
+    width: 100vw;                 /* 100 % del ancho */
+    height: 100vh !important;     /* altura completa de la ventana */
     background: var(--bg-overlay);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);   /* efecto glass */
     flex-direction: column;
   }
   .nav-links {
-    margin-top: 0;
+    margin-top: 0;          /* ya no necesitamos el hueco extra */
     flex-direction: column;
-    gap: 32px;
+    gap: 32px;              /* más espacio al tacto */
     font-size: 1.2rem;
-    text-align: center;
+    text-align: center;     /* centrado */
   }
+  /* Removed redundant .nav-controls styles from mobile media query */
 }
 
 @media (max-width: 480px) {
@@ -322,15 +327,19 @@ footer {
 @media (min-width: 769px) {
   header {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto; /* logo | enlaces | controles */
     align-items: center;
   }
+  
   .brand { grid-column: 1; }
+  
   .nav-links {
     display: flex;
     gap: 24px;
-    margin: 0 auto;
+    margin: 0 auto;            /* mantiene los enlaces centrados */
   }
+  
+  /* Ajuste de controles en desktop */
   .nav-controls {
     flex-direction: column !important;
     gap: 12px !important;
@@ -341,13 +350,13 @@ footer {
   }
 }
 
-/* Ajuste visual: cuando el menú móvil está abierto, el header se funde con el panel */
+/* --- Ajuste visual: cuando el menú móvil está abierto, el header se funde con el panel --- */
 body.nav-open header {
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: rgba(255, 255, 255, 0.95) !important; /* mismo fondo que el panel */
   box-shadow: none !important;
 }
 body.nav-open .brand .logo {
-  color: transparent;
+  color: transparent;   /* oculta el texto para que no se solape */
 }
 
 /* Always show hamburger toggle */
