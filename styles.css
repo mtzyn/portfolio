@@ -4,15 +4,12 @@
 .nav-content.active .nav-links {
   flex-direction: column !important;
   font-size: 1.5rem !important;  /* texto más grande */
-  gap: 10px !important;           /* espaciado adecuado */
+  gap: 10px !important;          /* espaciado adecuado */
   align-items: center !important;
 }
 
-/* ---------------------------------------
-   Variables de tema y reset global
---------------------------------------- */
 :root {
-  --accent: #f39c12;         /* color principal/acento */
+  --accent: #f39c12;
   --bg-overlay: rgba(0, 0, 0, 0.6);
   --background: #111;
   --text: #eee;
@@ -25,7 +22,6 @@ html {
   overflow-x: hidden;
 }
 
-/* Tema claro: redefinición de variables */
 body.light-theme {
   --background: #fff;
   --text: #333;
@@ -38,7 +34,6 @@ body.light-theme {
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   font-family: var(--font-main);
   background: var(--background);
@@ -47,9 +42,7 @@ body {
   line-height: 1.6;
 }
 
-/* ---------------------------------------
-   Backdrop que oscurece el fondo cuando el menú móvil está abierto
---------------------------------------- */
+/* Backdrop que oscurece el fondo cuando el menú móvil está abierto */
 .nav-backdrop {
   display: none;
   position: fixed;
@@ -58,16 +51,14 @@ body {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);   /* más oscurecido */
-  pointer-events: auto;              /* sigue capturando clic para cerrar */
+  pointer-events: auto;  /* sigue capturando clic para cerrar */
   z-index: 9300;
 }
 body.nav-open .nav-backdrop {
   display: block;
 }
 
-/* ---------------------------------------
-   Barra de progreso de scroll
---------------------------------------- */
+/* Barra de progreso */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -79,9 +70,7 @@ body.nav-open .nav-backdrop {
   transition: width 0.1s ease-out;
 }
 
-/* ---------------------------------------
-   Canvas de p5.js como fondo
---------------------------------------- */
+/* Canvas de p5.js */
 canvas {
   position: fixed;
   top: 0;
@@ -90,17 +79,14 @@ canvas {
   height: 100%;
   z-index: -1;
 }
-
-/* Evita que header, footer y secciones excedan el ancho de la ventana */
+/* Evita que elementos principales excedan el ancho de la ventana */
 header,
 footer,
 .section {
   max-width: 100%;
 }
 
-/* ---------------------------------------
-   HEADER y NAVEGACIÓN
---------------------------------------- */
+/* Header */
 header {
   position: fixed;
   top: 0;
@@ -109,7 +95,7 @@ header {
   height: 70px;
   background: var(--bg-overlay);
   display: grid;
-  grid-template-columns: auto 1fr auto; /* [logo] | [enlaces] | [controles] */
+  grid-template-columns: auto 1fr auto; /* logo | enlaces | controles */
   align-items: center;
   padding: 0 20px;
   z-index: 9000;
@@ -122,7 +108,7 @@ header {
   color: var(--text);
 }
 
-/* Botón hamburguesa (siempre visible) */
+/* Botón hamburguesa siempre visible */
 .menu-toggle {
   display: flex !important;
   position: absolute;
@@ -132,18 +118,21 @@ header {
   flex-direction: column;
   gap: 4px;
   background: var(--accent);
+  border: none;
+  cursor: pointer;
   border: 2px solid transparent;
   border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
   padding: 6px;
-  cursor: pointer;
+  box-sizing: content-box;
   z-index: 10000 !important;
 }
 .menu-toggle span {
   width: 20px;
   height: 2px;
   background: var(--text);
-  transition: background var(--transition-speed), transform 0.3s ease, opacity 0.3s ease;
+  transition: background var(--transition-speed);
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 .menu-toggle.active span:nth-child(1) {
   transform: translateY(6px) rotate(45deg);
@@ -155,13 +144,11 @@ header {
   transform: translateY(-6px) rotate(-45deg);
 }
 
-/* ---------------------------------------
-   Navegación en escritorio
---------------------------------------- */
+/* Navegación en escritorio */
 .nav-links {
   display: flex;
   gap: 20px;
-  list-style: none;  /* quitamos viñetas predeterminadas */
+  list-style: none;
 }
 .nav-links a {
   color: var(--text);
@@ -169,16 +156,10 @@ header {
   white-space: nowrap;       /* evita saltos de línea en enlaces como 'Sobre mí' */
   transition: color var(--transition-speed);
 }
-.nav-links a:hover,
-.nav-links a.active {
+.nav-links a:hover {
   color: var(--accent);
-  font-weight: 600;
 }
 
-/* ---------------------------------------
-   CONTROLES (Modo y Descargar CV)
---------------------------------------- */
-/* Controles en header (ESCRITORIO) */
 .nav-controls {
   display: flex !important;
   flex-direction: column !important;
@@ -192,7 +173,6 @@ header {
   transform: translateX(-50%) !important;
   width: 100% !important;
 }
-
 .control-btn {
   width: 90%;
   max-width: 240px;
@@ -202,18 +182,13 @@ header {
   border-radius: 6px;
   cursor: pointer;
   transition: background var(--transition-speed), transform var(--transition-speed);
-  background: var(--accent);
-  color: #fff;
-  text-decoration: none;
 }
 .control-btn:hover {
   background: var(--accent);
   transform: translateY(-2px);
 }
 
-/* ---------------------------------------
-   MAIN y SECCIONES
---------------------------------------- */
+/* Main y secciones */
 main {
   margin-top: 80px;
 }
@@ -232,17 +207,13 @@ main {
   transform: translateY(0);
 }
 
-/* ---------------------------------------
-   Enlace activo dentro del menú
---------------------------------------- */
+/* Enlace activo dentro del menú */
 .nav-links a.active {
   color: var(--accent);
   font-weight: 600;
 }
 
-/* ---------------------------------------
-   Intro
---------------------------------------- */
+/* Intro */
 #intro {
   text-align: center;
   padding: 150px 20px 80px;
@@ -261,9 +232,7 @@ main {
   display: inline-block;
 }
 
-/* ---------------------------------------
-   Grillas y proyectos
---------------------------------------- */
+/* Grillas y timelines */
 .services-grid,
 .projects-grid {
   display: grid;
@@ -291,9 +260,7 @@ main {
   color: var(--text);
 }
 
-/* ---------------------------------------
-   Timeline
---------------------------------------- */
+/* Timeline */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -306,9 +273,7 @@ main {
   border-radius: 4px;
 }
 
-/* ---------------------------------------
-   Testimonios
---------------------------------------- */
+/* Testimonios */
 blockquote {
   background: var(--bg-overlay);
   padding: 20px;
@@ -316,9 +281,7 @@ blockquote {
   margin-bottom: 20px;
 }
 
-/* ---------------------------------------
-   Footer
---------------------------------------- */
+/* Footer */
 footer {
   text-align: center;
   padding: 20px;
@@ -326,85 +289,27 @@ footer {
   color: #aaa;
 }
 
-/* ---------------------------------------
-   Estilo personalizado para “•” (bullets)
---------------------------------------- */
-/* Aplica solo si usas <ul class="custom-list"> */
-ul.custom-list {
-  list-style: none;      /* eliminamos el bullet predeterminado */
-  margin: 0;
-  padding: 0;
-}
-
-ul.custom-list li {
-  position: relative;    /* para colocar ::before correctamente */
-  padding-left: 1.6em;   /* espacio para que quepa el bullet personalizado */
-  margin-bottom: 0.75em; /* espacio entre cada ítem */
-  font-size: 1rem;       /* tamaño de texto estándar */
-}
-
-/* Creamos el bullet como un círculo con ::before */
-ul.custom-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;                       /* al inicio de la línea */
-  top: 50%;                      /* posicionamos a mitad vertical */
-  transform: translateY(-50%);   /* corregimos la mitad de la altura */
-  width: 0.5em;                  /* 0.5em = aprox. 8px (asumiendo fuente base 16px) */
-  height: 0.5em;
-  background: var(--accent);     /* color del bullet */
-  border-radius: 50%;            /* círculo perfecto */
-}
-
-/* Opcional: cambiar color del bullet al pasar el cursor por el ítem */
-ul.custom-list li:hover::before {
-  background: #d48b0f; /* un color un 10-15% más oscuro que el acento */
-}
-
-/* ---------------------------------------
-   Responsive
---------------------------------------- */
+/* Responsive */
 @media (max-width: 768px) {
   .nav-content {
     display: none;                 /* oculto por defecto para no cubrir contenido */
     position: fixed;
     top: 0;
-    left: 0;                       /* ocupa toda la pantalla */
-    width: 100vw;                  /* 100 % del ancho */
-    height: 100vh !important;      /* altura completa de la ventana */
+    left: 0;                      /* ocupa toda la pantalla */
+    width: 100vw;                 /* 100 % del ancho */
+    height: 100vh !important;     /* altura completa de la ventana */
     background: var(--bg-overlay);
     backdrop-filter: blur(10px);   /* efecto glass */
     flex-direction: column;
-    align-items: center;           /* centrado horizontal */
-    justify-content: center;       /* centrado vertical */
-    padding: 20px;
   }
   .nav-links {
-    margin-top: 0;          
+    margin-top: 0;          /* ya no necesitamos el hueco extra */
     flex-direction: column;
-    gap: 32px;
+    gap: 32px;              /* más espacio al tacto */
     font-size: 1.2rem;
-    text-align: center;   
+    text-align: center;     /* centrado */
   }
-  /* Ajuste para controles en menú móvil */
-  .nav-content.active .nav-controls {
-    position: static !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-start !important;
-    margin: 20px 0 0 !important;   /* separa controles de enlaces */
-    padding: 0 !important;
-    width: 100% !important;
-  }
-  .nav-controls {
-    flex-direction: column !important;
-    gap: 8px !important;
-    padding: 20px 0 0 !important;
-    margin: 0;                     /* resetea margen previo */
-    width: 100% !important;
-    align-items: center !important;
-  }
+  /* Removed redundant .nav-controls styles from mobile media query */
 }
 
 @media (max-width: 480px) {
@@ -427,18 +332,19 @@ ul.custom-list li:hover::before {
 @media (min-width: 769px) {
   header {
     display: grid;
-    grid-template-columns: auto 1fr auto; /* [logo] | [enlaces] | [controles] */
+    grid-template-columns: auto 1fr auto; /* logo | enlaces | controles */
     align-items: center;
   }
-  .brand {
-    grid-column: 1;
-  }
+  
+  .brand { grid-column: 1; }
+  
   .nav-links {
     display: flex;
     gap: 24px;
-    margin: 0 auto;            /* enlaces centrados */
+    margin: 0 auto;            /* mantiene los enlaces centrados */
   }
-  /* Controles centrados en escritorio bajo el header */
+  
+  /* Ajuste de controles en desktop */
   .nav-controls {
     flex-direction: column !important;
     gap: 12px !important;
@@ -449,18 +355,16 @@ ul.custom-list li:hover::before {
   }
 }
 
-/* ---------------------------------------
-   Ajuste visual: cuando el menú móvil está abierto, el header se funde con el overlay
---------------------------------------- */
+/* --- Ajuste visual: cuando el menú móvil está abierto, el header se funde con el panel --- */
 body.nav-open header {
-  background: rgba(255, 255, 255, 0.95) !important; /* mismo fondo que el overlay */
+  background: rgba(255, 255, 255, 0.95) !important; /* mismo fondo que el panel */
   box-shadow: none !important;
 }
 body.nav-open .brand .logo {
-  color: transparent;   /* oculta el logo para que no se solape */
+  color: transparent;   /* oculta el texto para que no se solape */
 }
 
-/* Siempre mostrar botón hamburguesa */
+/* Always show hamburger toggle */
 header .menu-toggle {
   display: flex !important;
   visibility: visible !important;
@@ -468,12 +372,12 @@ header .menu-toggle {
   z-index: 10002 !important;
 }
 
-/* Oculta el overlay de .nav-content por defecto */
+/* Hide the nav-content overlay by default */
 .nav-content {
   display: none !important;
 }
 
-/* Muestra el overlay .nav-content solo cuando está activo */
+/* Show the nav-content overlay only when active */
 .nav-content.active {
   display: flex !important;
   flex-direction: column !important;
@@ -491,4 +395,36 @@ header .menu-toggle {
   text-align: center !important;
   padding: 20px !important;
   overflow-y: auto !important;
+}
+
+/* ---------------------------------------
+   Estilo personalizado para “•” (bullets)
+--------------------------------------- */
+ul.custom-list {
+  list-style: none;      /* eliminamos el bullet predeterminado */
+  margin: 0;
+  padding: 0;
+}
+
+ul.custom-list li {
+  position: relative;    /* para colocar ::before correctamente */
+  padding-left: 1.6em;   /* espacio para que quepa el bullet personalizado */
+  margin-bottom: 0.75em; /* espacio entre cada ítem */
+  font-size: 1rem;       /* tamaño de texto estándar */
+}
+
+ul.custom-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;                       /* al inicio de la línea */
+  top: 50%;                      /* posicionamos a mitad vertical */
+  transform: translateY(-50%);   /* corregimos la mitad de la altura */
+  width: 0.5em;                  /* 0.5em ≈ 8px */
+  height: 0.5em;
+  background: var(--accent);     /* color del bullet */
+  border-radius: 50%;            /* círculo perfecto */
+}
+
+ul.custom-list li:hover::before {
+  background: #d48b0f; /* más oscuro al pasar el cursor */
 }
