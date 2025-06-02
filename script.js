@@ -38,8 +38,6 @@
       strokeWeight(strokeW);
       noFill();
       beginShape();
-
-      beginShape();
       for (let x = 0; x <= width; x += 4) {
         const theta = phase + x * 0.015 + layer;
         const y = height / 2 + sin(theta) * amp;
@@ -79,25 +77,12 @@
     const menuToggle = document.querySelector('.menu-toggle');
     const navContent = document.querySelector('.nav-content');
     const backdrop = document.querySelector('.nav-backdrop');
-    const bgSelect = document.getElementById('bg-select');
 
     // --- Animación GSAP al abrir el menú móvil ---
     const navTl = gsap.timeline({ paused: true, defaults: { ease: "power2.out" } });
     navTl
       .from(".nav-links a", { y: 60, opacity: 0, stagger: 0.08 })
       .from(".nav-controls button", { y: 40, opacity: 0, stagger: 0.1 }, "<");
-
-    // Si el select existe (solo en versión con selector)
-    if (bgSelect) {
-      bgSelect.value = bgStyle;
-
-      bgSelect.addEventListener('change', e => {
-        bgStyle = e.target.value;
-        localStorage.setItem('bgStyle', bgStyle);
-        particles = [];
-        // No hace nada más porque ahora solo hay fondo de ondas
-      });
-    }
 
     // Evento para abrir/cerrar menú móvil con animación
     menuToggle.addEventListener('click', () => {
